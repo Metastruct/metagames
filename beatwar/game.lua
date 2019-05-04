@@ -1,6 +1,5 @@
 // By Failcake: https://failcake.me
 // =======================================
-
 local Tag = "Beatwar"
 
 // EFFECT
@@ -529,7 +528,7 @@ BeatWar.Map = {
 	}
 }
 
-BeatWar.CurrentMap = BeatWar.Map.HenkeLvl
+BeatWar.CurrentMap = BeatWar.Map.CakeLvl
 
 BeatWar.MusicSettings = {
 	beatmusic_1 = {
@@ -779,17 +778,7 @@ BeatWar.PlayerModels = {
         self:ExitVehicle()
         self:GodDisable()
         
-        self:ConCommand("pac_enable 0")
-        self:ConCommand("playx_enabled 0")
         self:SetSolid(2)
-
-        self.OldPACSize = self:GetModelScale()
-        self.OldModel = self:GetModel()
-        
-        pac.SetPlayerSize(self,1) // Reset pac size
-        pac.SetPlayerModel(self,BeatWar.PlayerModels[math.random(1,#BeatWar.PlayerModels)]) 
-        
-        self:SetNWInt("pac_size",self.OldPACSize)
         self:SetColor(Color(255,255,255,255))
         
         self:SprintDisable()
@@ -862,10 +851,6 @@ BeatWar.PlayerModels = {
         self.DisableSit = false
         
         self:SprintEnable()
-        
-        local Oldsize = self.OldPACSize or 1
-        pac.SetPlayerSize(self,Oldsize) // Reset pac size
-        self.pac_player_size = Oldsize
         self.double_jump_allowed = true
         
         self.last_rip = CurTime()
@@ -874,10 +859,6 @@ BeatWar.PlayerModels = {
         self:StripWeapons()
         
         hook.Call("PlayerLoadout",self)
-
-        self:ConCommand("pac_enable 1")
-        self:ConCommand("playx_enabled 1")
-        
         Watt.Enabled = true
         
         local OldModel = self.OldModel or ""
@@ -947,7 +928,7 @@ BeatWar.PlayerModels = {
     // ROOM RELATED
     function HideScreen(show)
         
-        local fnd = ents.FindInSphere(Vector (-4304.5439453125, 3425.40625, -15807.130859375),50)
+        local fnd = ents.FindInSphere(Vector (-4321.247070, 3428.533447 ,-15785.465820),50)
         for i,v in pairs(fnd) do
             if v:GetClass() == "lua_screen" then
                 v:SetNoDraw(show)
@@ -967,7 +948,7 @@ BeatWar.PlayerModels = {
             trigger_vphys[2]:Fire('Disable')
         end
         
-        for i,v in pairs(ents.FindInBox( Vector(-151.822952,775.692139,-15842.093750), Vector(-4230.739258,5300.753906,-13602.173828) )) do
+        for i,v in pairs(ents.FindInBox( Vector(-89.803291, 704.318970, -15934.197266), Vector(-4273.825195, 5339.345703, -13588.852539) )) do
             if !IsValid(v) then continue end
             if v:GetClass() == "prop_physics" then
                 local phys = v:GetPhysicsObject()
@@ -981,7 +962,7 @@ BeatWar.PlayerModels = {
     
     function CleanupMap()
     	if BeatWar.NOKICK then return end
-        for i,p in pairs(ents.FindInBox(Vector(-144.563507,769.941833,-15850.163086), Vector(-4309.127441,5375.066406,-13562.069336))) do
+        for i,p in pairs(ents.FindInBox(Vector(-89.803291, 704.318970, -15934.197266), Vector(-4273.825195, 5339.345703, -13588.852539))) do
             
             if IsValid(p) then
                if IsValid(p:CPPIGetOwner()) and p:CPPIGetOwner():SteamID() != "STEAM_0:1:20785590" then
@@ -1008,7 +989,7 @@ BeatWar.PlayerModels = {
         BeatWar.DoorProt = ents.Create("prop_physics")
         BeatWar.DoorProt:SetModel("models/hunter/plates/plate6x7.mdl")
         BeatWar.DoorProt:SetMaterial("models/props_lab/cornerunit_cloud")
-        BeatWar.DoorProt:SetPos(Vector (-4251.192383,3036.774414,-15812.869141))
+        BeatWar.DoorProt:SetPos(Vector (-4257.946289 ,3037.064453, -15791.968750))
         BeatWar.DoorProt:SetAngles(Angle(90,0,0))
         BeatWar.DoorProt:Spawn()
         BeatWar.DoorProt.PhysgunDisabled = true
@@ -1019,7 +1000,7 @@ BeatWar.PlayerModels = {
         end
 
         // The Door
-        local fnd = ents.FindInSphere(Vector(-4259.864258,3031.825928,-15790.468750),100)
+        local fnd = ents.FindInSphere(Vector(-4257.946289 ,3037.064453, -15791.968750),100)
         for i,v in pairs(fnd) do
             if v:GetClass() == "func_door" then
                 v:Fire("Lock")
@@ -1043,31 +1024,31 @@ BeatWar.PlayerModels = {
     		if !IsValid(v) then continue end
     		
     		local Pth = BeatWar.MusicSettings[BeatWar.MUSIC].Path
-			v:preloadMusic(BeatWar.MUSIC,"http://failcake.me/minigames/Beatwar/"..Pth..".ogg",false,0.4) // Load Selected Music
+			v:preloadMusic(BeatWar.MUSIC,"http://xss.failcake.me/minigames/Beatwar/"..Pth..".ogg",false,0.4) // Load Selected Music
 
-			v:preloadMusic("beatintro","http://failcake.me/minigames/Beatwar/beatintro.ogg",false,0.7)
+			v:preloadMusic("beatintro","http://xss.failcake.me/minigames/Beatwar/beatintro.ogg",false,0.7)
 			
-			v:preloadMusic("coin","http://failcake.me/minigames/Beatwar/getpoint_normal.ogg",false,0.5)
-			v:preloadMusic("coin_big","http://failcake.me/minigames/Beatwar/getpoint_big.ogg",false,0.5)
+			v:preloadMusic("coin","http://xss.failcake.me/minigames/Beatwar/getpoint_normal.ogg",false,0.5)
+			v:preloadMusic("coin_big","http://xss.failcake.me/minigames/Beatwar/getpoint_big.ogg",false,0.5)
 			
-			v:preloadMusic("beatmissed","http://failcake.me/minigames/Beatwar/sfx_missedbeat.ogg",false,0.8)
-			v:preloadMusic("arrowpower","http://failcake.me/minigames/Beatwar/arrowpower.ogg",false,0.5)
+			v:preloadMusic("beatmissed","http://xss.failcake.me/minigames/Beatwar/sfx_missedbeat.ogg",false,0.8)
+			v:preloadMusic("arrowpower","http://xss.failcake.me/minigames/Beatwar/arrowpower.ogg",false,0.5)
 			
-			v:preloadMusic("rocketpower","http://failcake.me/minigames/Beatwar/rocketget.ogg",false,0.5)
-			v:preloadMusic("rocketmiss","http://failcake.me/minigames/Beatwar/rocketmiss.ogg",false,0.5)
-			v:preloadMusic("rockethit","http://failcake.me/minigames/Beatwar/rocketstun.ogg",false,0.5)
+			v:preloadMusic("rocketpower","http://xss.failcake.me/minigames/Beatwar/rocketget.ogg",false,0.5)
+			v:preloadMusic("rocketmiss","http://xss.failcake.me/minigames/Beatwar/rocketmiss.ogg",false,0.5)
+			v:preloadMusic("rockethit","http://xss.failcake.me/minigames/Beatwar/rocketstun.ogg",false,0.5)
 			
 
-			v:preloadMusic("winmult","http://failcake.me/minigames/Beatwar/winmult.ogg",false,0.8)
-			v:preloadMusic("lostmult","http://failcake.me/minigames/Beatwar/lostmult.ogg",false,0.5)
+			v:preloadMusic("winmult","http://xss.failcake.me/minigames/Beatwar/winmult.ogg",false,0.8)
+			v:preloadMusic("lostmult","http://xss.failcake.me/minigames/Beatwar/lostmult.ogg",false,0.5)
 
-			v:preloadMusic("announce_3","http://failcake.me/minigames/bashannouncer_3.ogg",false,1)
-			v:preloadMusic("announce_2","http://failcake.me/minigames/bashannouncer_2.ogg",false,1)
-			v:preloadMusic("announce_1","http://failcake.me/minigames/bashannouncer_1.ogg",false,1)
-			v:preloadMusic("announce_go","http://failcake.me/minigames/bashannouncer_go.ogg",false,1)
+			v:preloadMusic("announce_3","http://xss.failcake.me/minigames/bashannouncer_3.ogg",false,1)
+			v:preloadMusic("announce_2","http://xss.failcake.me/minigames/bashannouncer_2.ogg",false,1)
+			v:preloadMusic("announce_1","http://xss.failcake.me/minigames/bashannouncer_1.ogg",false,1)
+			v:preloadMusic("announce_go","http://xss.failcake.me/minigames/bashannouncer_go.ogg",false,1)
 			
-			v:preloadMusic("announce_welcome","http://failcake.me/minigames/Beatwar/ann_battle.ogg",false,1)
-			v:preloadMusic("winnermusic","http://failcake.me/minigames/Beatwar/winner.ogg",false,1)
+			v:preloadMusic("announce_welcome","http://xss.failcake.me/minigames/Beatwar/ann_battle.ogg",false,1)
+			v:preloadMusic("winnermusic","http://xss.failcake.me/minigames/Beatwar/winner.ogg",false,1)
 			
 			v.LoadingTime = CurTime() + 30 // 20 seconds of load time.
 			
@@ -1147,7 +1128,7 @@ BeatWar.PlayerModels = {
 			
 		local Size = 47.7
 		--local InPos = Vector (-2194.2863769531, 3033.7631835938, -15507.552734375) - Vector(BeatWar.Size*Size,BeatWar.Size*Size,0)
-		local InPos = Vector(-3906.228760, -45.971676, -11599.795898) - Vector(BeatWar.Size*Size,BeatWar.Size*Size,0)
+		local InPos = Vector(-2402.102051, 3042.314941, -15404.665039) - Vector(BeatWar.Size*Size,BeatWar.Size*Size,0)
 		local LastSpawn = 0
 
 		local WllFr = false
@@ -2326,7 +2307,7 @@ if CLIENT then
 		end
 			
 			// Play loading Music, because yea.
-		sound.PlayURL ("http://failcake.me/minigames/Beatwar/loading.ogg", "", function( station )
+		sound.PlayURL ("http://xss.failcake.me/minigames/Beatwar/loading.ogg", "", function( station )
 			if IsValid(station) then
 					
 				BeatWar.LoadMusic = station
@@ -2878,7 +2859,7 @@ if CLIENT then
 			end
 			
 		else
-			sound.PlayURL("http://www.failcake.me/minigames/Beatwar/votetime.ogg", "", function( station )
+			sound.PlayURL("http://www.xss.failcake.me/minigames/Beatwar/votetime.ogg", "", function( station )
 				if IsValid(station) then
 					
 					BeatWar.VotingMusic = station
